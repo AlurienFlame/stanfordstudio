@@ -63,12 +63,12 @@ const projects = [
       selectedInterval === 'Newest' ? 'Newest Projects' :
       selectedInterval === 'This Week' ? 'Top Projects This Week' :
       selectedInterval === 'This Month' ? 'Top Projects This Month' :
-      selectedInterval === 'This Year' ? 'Top Projects This Year' : ''}
+      selectedInterval === 'All Time' ? 'Top Projects All Time' : ''}
     </p>
         </div>
 
         <div className="flex justify-end items-center gap-2">
-          {['Newest', 'This Week', 'This Month', 'This Year'].map((interval) => (
+          {['Newest', 'This Week', 'This Month', 'All Time'].map((interval) => (
             <p
               key={interval}
               onClick={() => handleIntervalChange(interval)}

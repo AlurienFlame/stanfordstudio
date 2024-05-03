@@ -59,15 +59,16 @@ const projects = [
       <div className="w-full flex justify-between border-b-2 border-solid border-paper-2 mt-12 pb-4">
         <div className="flex items-center">
         <p className="text-3xl font-bold">
-      {selectedInterval === 'This Week' ? 'Top Projects This Week' :
+      {
+      selectedInterval === 'Newest' ? 'Newest Projects' :
+      selectedInterval === 'This Week' ? 'Top Projects This Week' :
       selectedInterval === 'This Month' ? 'Top Projects This Month' :
-      selectedInterval === 'This Year' ? 'Top Projects This Year' :
-      selectedInterval === 'Newest' ? 'Newest Projects' : ''}
+      selectedInterval === 'This Year' ? 'Top Projects This Year' : ''}
     </p>
         </div>
 
         <div className="flex justify-end items-center gap-2">
-          {['This Week', 'This Month', 'This Year', 'Newest'].map((interval) => (
+          {['Newest', 'This Week', 'This Month', 'This Year'].map((interval) => (
             <p
               key={interval}
               onClick={() => handleIntervalChange(interval)}

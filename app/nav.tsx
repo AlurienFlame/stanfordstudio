@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { supabase } from './supabaseClient'
 import { Session } from '@supabase/supabase-js';
 
 export default function Nav({session}: {session: Session | null}) {

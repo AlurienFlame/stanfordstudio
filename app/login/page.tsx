@@ -23,10 +23,9 @@ export default function Login() {
 
   return (
     <main className="flex w-full flex-col font-urbanist">
-      <form className="form-widget" onSubmit={handleLogin}>
+      <form onSubmit={handleLogin}>
         <div>
           <input
-            className="inputField"
             type="email"
             placeholder="Your email"
             value={email}
@@ -35,7 +34,7 @@ export default function Login() {
           />
         </div>
         <div>
-          <button className={'button block'} disabled={loading}>
+          <button disabled={loading}>
             {loading ? <span>Loading</span> : <span>Send magic link</span>}
           </button>
         </div>

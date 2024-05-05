@@ -1,7 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { supabase } from './supabaseClient'
+import { Session } from '@supabase/supabase-js';
 
-export default function Nav() {
+export default function Nav({session}: {session: Session | null}) {
   return (
     <div className="flex w-full bg-paper justify-center border-b-2 border-solid border-paper-2">
       <div className="w-11/12">
@@ -18,6 +21,7 @@ export default function Nav() {
             <Link href="/login">
             <div className="text-paper py-3 w-[180px]  bg-cardinal rounded-lg font-bold text-center">Login</div>
             </Link>
+            <div>Logged in as: {session?.user.email}</div>
         </div>
       </div>
 

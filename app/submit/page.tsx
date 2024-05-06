@@ -40,6 +40,7 @@ function Page() {
         title,
         subtitle,
         author: session?.user.email?.split('@')[0],
+        user_id: session?.user.id,
         stage,
         link,
         tags

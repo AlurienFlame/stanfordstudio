@@ -11,6 +11,8 @@ export default function Login() {
     event.preventDefault();
 
     setLoading(true);
+    // FIXME: Pretty sure a savvy user could still login with a non-stanford email,
+    // since we're only checking client-side.
     const { error } = await supabase.auth.signInWithOtp({ email });
 
     if (error) {
@@ -31,8 +33,10 @@ export default function Login() {
             value={email}
             required={true}
             onChange={(e) => setEmail(e.target.value)}
+            pattern=".+@stanford\.edu$"
           />
         </div>
+        <p> Must be an @stanford.edu email. </p>
         <div>
           <button disabled={loading}>
             {loading ? <span>Loading</span> : <span>Send magic link</span>}

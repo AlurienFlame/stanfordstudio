@@ -1,9 +1,22 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
+import { Session } from '@supabase/supabase-js';
 
 function Page() {
+  // TODO: Figure out how to DRY supabase session logic
+  const [session, setSession] = useState<Session | null>(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   const [loading, setLoading] = useState(false);
 
   const [title, setTitle] = useState('');
@@ -16,10 +29,17 @@ function Page() {
     event.preventDefault();
 
     setLoading(true);
+    if (!session) {
+      alert('You need to be logged in to submit a project');
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.from('projects').insert(
       {
         title,
         subtitle,
+        author: session?.user.email?.split('@')[0],
         stage,
         link,
         tags

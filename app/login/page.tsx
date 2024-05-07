@@ -43,13 +43,14 @@ const [session, setSession] = useState<Session | null>(null);
 
 
   return (
-    <main className="flex w-full bg-paper-2 h-full flex-col font-urbanist items-center">
+    <main className="flex w-full bg-paper-2 h-screen flex-col font-urbanist items-center">
       <Nav session={session} />
-      <div className='flex justify-center items-center flex-col bg-white rounded-[24px] p-[24px] w-2/3'>
-        <p className='text-3xl'>Login</p>
-        <div className='h-[2px] w-4/5 bg-paper-2'></div>
-        <form onSubmit={handleLogin}>
-        <div>
+      <div className='flex justify-center items-center h-full w-full'>
+      <div className='flex justify-center items-center flex-col bg-white rounded-[24px] p-[72px] w-1/3'>
+        <p className='text-3xl pb-4'>Login</p>
+        <div className='h-[2px] w-4/5 bg-paper-2 '></div>
+        <form onSubmit={handleLogin} className='pt-4'>
+        <div className='border w-[180px]'>
           <input
             type="email"
             placeholder="Your email"
@@ -57,6 +58,7 @@ const [session, setSession] = useState<Session | null>(null);
             required={true}
             onChange={(e) => setEmail(e.target.value)}
             pattern=".+@stanford\.edu$"
+            className='p-2'
           />
         </div>
         <p> Must be an @stanford.edu email. </p>
@@ -66,6 +68,7 @@ const [session, setSession] = useState<Session | null>(null);
           </button>
         </div>
       </form>
+      </div>
       </div>
       
     </main>

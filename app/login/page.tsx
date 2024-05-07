@@ -43,10 +43,10 @@ const [session, setSession] = useState<Session | null>(null);
 
 
   return (
-    <main className="flex w-full bg-paper-2 h-full flex-col font-urbanist">
+    <main className="flex w-full bg-paper-2 h-full flex-col font-urbanist items-center">
       <Nav session={session} />
-      <div className='flex justify-center items-center flex-col bg-white rounded-[24px] p-[24px]'>
-        <h1>Login</h1>
+      <div className='flex justify-center items-center flex-col bg-white rounded-[24px] p-[24px] w-2/3'>
+        <p className='text-3xl'>Login</p>
         <div className='h-[2px] w-4/5 bg-paper-2'></div>
         <form onSubmit={handleLogin}>
         <div>

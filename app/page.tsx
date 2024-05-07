@@ -1,10 +1,10 @@
 'use client'
-
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Nav from "./nav";
 import Ranking from "./ranking";
 import Home from "./home";
-import { useEffect, useState } from "react";
+
 import { supabase } from "./supabaseClient";
 import { Session } from "@supabase/supabase-js";
 

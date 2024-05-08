@@ -49,8 +49,9 @@ const [session, setSession] = useState<Session | null>(null);
       <div className='flex justify-center items-center flex-col bg-white rounded-[24px] p-[72px] w-1/3'>
         <p className='text-3xl pb-4'>Login</p>
         <div className='h-[2px] w-4/5 bg-paper-2 '></div>
-        <form onSubmit={handleLogin} className='pt-4'>
-        <div className='border w-[180px]'>
+        <p className='py-4'>@stanford.edu email required.</p>
+        <form onSubmit={handleLogin} className=' flex flex-col justify-center items-center'>
+        <div className='w-[280px] rounded-lg text-center'>
           <input
             type="email"
             placeholder="Your email"
@@ -58,14 +59,15 @@ const [session, setSession] = useState<Session | null>(null);
             required={true}
             onChange={(e) => setEmail(e.target.value)}
             pattern=".+@stanford\.edu$"
-            className='p-2'
+            className='p-2 w-full rounded-lg border-paper-2 border-[2px] h-[48px] text-center'
           />
         </div>
-        <p> Must be an @stanford.edu email. </p>
         <div>
+        <div className="text-paper py-3 w-[280px] bg-cardinal rounded-lg font-bold text-center">
           <button disabled={loading}>
-            {loading ? <span>Loading</span> : <span>Send magic link</span>}
+            {loading ? <span>Loading</span> : <span>Send Login Link</span>}
           </button>
+        </div>
         </div>
       </form>
       </div>

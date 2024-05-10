@@ -25,9 +25,12 @@ function Page() {
 
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
+  const [desc, setDesc] = useState('');
   const [stage, setStage] = useState('');
   const [link, setLink] = useState('');
+  const [linkname, setLinkName] = useState('');
   const [tags, setTags] = useState('');
+  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -79,19 +82,23 @@ function Page() {
       <form onSubmit={handleSubmit} className='flex flex-col items-center'>
         <p className='font-medium pb-1 pt-4'>Project Title</p>
         <input
-          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-[300px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="Super Epic Project"
           required={true}
           onChange={(e) => setTitle(e.target.value)}
+          maxLength={40}
         />
         <p className='font-medium pb-1 pt-4'>Project Subtitle</p>
-        <input
-          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
-          type="text"
-          placeholder="The Everything App"
-          onChange={(e) => setSubtitle(e.target.value)}
-        />
+        <textarea
+        className='w-[300px] rounded-lg p-2 border-paper-3 border-[1px] h-auto min-h-[48px] max-h-[0px] text-center resize-none'
+        placeholder="The Everything App"
+        maxLength={100}
+        onChange={(e) => {
+            setSubtitle(e.target.value);
+        }}
+      />
+
 
 <p className='font-medium pb-1 pt-4'>Project Stage</p>
         <select

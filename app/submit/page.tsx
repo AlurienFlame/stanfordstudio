@@ -66,20 +66,36 @@ function Page() {
   return (
     <main className="flex w-full bg-paper-2 h-screen flex-col font-urbanist items-center">
       <Nav session={session} />
-      <form onSubmit={handleSubmit}>
+
+
+      <div className='flex justify-center items-center h-full w-full'>
+      <div className='flex justify-center items-center flex-col bg-white rounded-[24px] p-[72px] w-1/3'>
+
+      <p className='text-3xl pb-4'>Submit Your Project</p>
+        <div className='h-[2px] w-4/5 bg-paper-2 '></div>
+        <p className='pt-4 text-paper-3'>Your SUID will be visable.</p>
+
+
+      <form onSubmit={handleSubmit} className='flex flex-col items-center'>
+        <p className='font-medium pb-1 pt-4'>Project Title</p>
         <input
+          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
-          placeholder="Project name"
+          placeholder="Super Epic Project"
           required={true}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <p className='font-medium pb-1 pt-4'>Project Subtitle</p>
         <input
+          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
-          placeholder="Project subtitle"
+          placeholder="The Everything App"
           onChange={(e) => setSubtitle(e.target.value)}
         />
-        <p>Note: your SUNet ID will be publicly visible!</p>
+
+<p className='font-medium pb-1 pt-4'>Project Stage</p>
         <select
+          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           defaultValue=""
           onChange={(e) => setStage(e.target.value)}
         >
@@ -88,9 +104,12 @@ function Page() {
           <option value="2">Prototype</option>
           <option value="3">Launched</option>
         </select>
+
+        <p className='font-medium pb-1 pt-4'>Project Link</p>
         <input
+          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
-          placeholder="Project URL"
+          placeholder="https://www.google.com/"
           onChange={(e) => setLink(e.target.value)}
         />
         {/* TODO: list of image urls */}
@@ -103,6 +122,12 @@ function Page() {
           {loading ? <span>Loading</span> : <span>Submit</span>}
         </button>
       </form>
+
+    </div>
+    </div>
+
+
+
     </main>
   );
 }

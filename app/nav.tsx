@@ -3,6 +3,10 @@ import Link from 'next/link';
 import { Session } from '@supabase/supabase-js';
 
 export default function Nav({ session }: { session: Session | null; }) {
+
+  // Extract name from email
+  const name = session?.user.email?.split('@')[0];
+
   return (
     <div className="flex w-full bg-paper justify-center border-b-2 border-solid border-paper-2">
       <div className="w-11/12">
@@ -16,10 +20,15 @@ export default function Nav({ session }: { session: Session | null; }) {
             <Link href={session ? "/submit" : "/login"}>
               <div className="text-paper-3 py-3 w-[180px] bg-paper rounded-lg border border-solid border-paper-3 text-center">Post My Project</div>
             </Link>
-            <Link href="/login">
-              <div className="text-paper py-3 w-[180px]  bg-cardinal rounded-lg font-bold text-center">Login</div>
-            </Link>
-            <div>Logged in as: {session?.user.email}</div>
+
+             {/* Conditionally render login/logout */}
+             {session ? (
+              <div className="text-paper py-3 w-[180px] bg-cardinal rounded-lg font-bold text-center">@{name}</div>
+            ) : (
+              <Link href="/login">
+                <div className="text-paper py-3 w-[180px] bg-cardinal rounded-lg font-bold text-center">Login</div>
+              </Link>
+            )}
           </div>
         </div>
 

@@ -3,6 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { Session } from '@supabase/supabase-js';
+import Nav from "../nav";
+
+
+
 
 function Page() {
   // TODO: Figure out how to DRY supabase session logic
@@ -56,8 +60,12 @@ function Page() {
     setLoading(false);
   };
 
+
+
+  
   return (
-    <main className="flex w-full flex-col font-urbanist">
+    <main className="flex w-full bg-paper-2 h-screen flex-col font-urbanist items-center">
+      <Nav session={session} />
       <form onSubmit={handleSubmit}>
         <input
           type="text"

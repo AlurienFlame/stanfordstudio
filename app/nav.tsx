@@ -7,6 +7,14 @@ export default function Nav({ session }: { session: Session | null; }) {
   // Extract name from email
   const name = session?.user.email?.split('@')[0];
 
+  // Function to handle sign out confirmation
+  const handleSignOut = () => {
+    const confirmSignOut = window.confirm('Do you want to sign out?');
+    if (confirmSignOut) {
+      console.log('Signing out...'); // Replace this with your sign-out logic
+    }
+  };
+
   return (
     <div className="flex w-full bg-paper justify-center border-b-2 border-solid border-paper-2">
       <div className="w-11/12">
@@ -23,7 +31,7 @@ export default function Nav({ session }: { session: Session | null; }) {
 
              {/* Conditionally render login/logout */}
              {session ? (
-              <div className="text-paper py-3 w-[180px] bg-cardinal rounded-lg font-bold text-center">@{name}</div>
+              <button className="text-paper py-3 w-[180px] bg-cardinal rounded-lg font-bold text-center" onClick={handleSignOut}>@{name}</button>
             ) : (
               <Link href="/login">
                 <div className="text-paper py-3 w-[180px] bg-cardinal rounded-lg font-bold text-center">Login</div>

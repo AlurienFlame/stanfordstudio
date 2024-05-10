@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Session } from '@supabase/supabase-js';
+import { supabase } from './supabaseClient';
 
 export default function Nav({ session }: { session: Session | null; }) {
 
@@ -12,6 +13,7 @@ export default function Nav({ session }: { session: Session | null; }) {
     const confirmSignOut = window.confirm('Do you want to sign out?');
     if (confirmSignOut) {
       console.log('Signing out...'); // Replace this with your sign-out logic
+      supabase.auth.signOut();
     }
   };
 

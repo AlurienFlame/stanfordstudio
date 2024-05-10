@@ -15,7 +15,9 @@ export default function Login() {
     setLoading(true);
     // FIXME: Pretty sure a savvy user could still login with a non-stanford email,
     // since we're only checking client-side.
-    const { error } = await supabase.auth.signInWithOtp({ email });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: {
+      emailRedirectTo: process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000/"
+    } });
 
     if (error) {
       alert(error.message);

@@ -1,26 +1,42 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
+import { supabase } from './supabaseClient';
 
-const tagEmojis: { [key: string]: { emojiUrl: string} } = {
-    'Artificial Intelligence': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png'},
-    'Seeking Support': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Two%20Hearts.png'},
-    'Launched': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png'},
-    'In Progress': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Flying%20Saucer.png'},
-    'Early Stages': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Two%20Hearts.png'},
-    'Seeking Teammates': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png'},
+const tagEmojis: { [key: string]: { emojiUrl: string; }; } = {
+  'Artificial Intelligence': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png' },
+  'Seeking Support': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Two%20Hearts.png' },
+  'Launched': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png' },
+  'In Progress': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Flying%20Saucer.png' },
+  'Early Stages': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Two%20Hearts.png' },
+  'Seeking Teammates': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png' },
 };
 
 export default function Ranking() {
   const [selectedInterval, setSelectedInterval] = useState('This Week');
+  const [projects, setProjects] = useState([] as any[]);
 
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
     // You can perform any other logic here based on the selected interval
   };
 
+  useEffect(() => {
+    // FIXME: Triggers twice, just react things
+    supabase
+      .from('projects')
+      .select()
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error fetching projects:', error.message);
+          return;
+        }
+        setProjects(data);
+      });
+  }, []);
+
   // Array of sample projects with tags
-// Array of sample projects with tags
-const projects = [
+  /*
+  const projects = [
     {
       id: 1,
       title: 'Meaning',
@@ -52,19 +68,20 @@ const projects = [
       tags: ['Tag Alpha', 'Tag Beta', 'Tag Gamma'],
     },
   ];
-  
+  */
+
 
   return (
     <div className="w-full">
       <div className="w-full flex justify-between border-b-2 border-solid border-paper-2 mt-12 pb-4">
         <div className="flex items-center">
-        <p className="text-3xl font-bold">
-      {
-      selectedInterval === 'Newest' ? 'Newest Projects' :
-      selectedInterval === 'This Week' ? 'Top Projects This Week' :
-      selectedInterval === 'This Month' ? 'Top Projects This Month' :
-      selectedInterval === 'All Time' ? 'Top Projects All Time' : ''}
-    </p>
+          <p className="text-3xl font-bold">
+            {
+              selectedInterval === 'Newest' ? 'Newest Projects' :
+                selectedInterval === 'This Week' ? 'Top Projects This Week' :
+                  selectedInterval === 'This Month' ? 'Top Projects This Month' :
+                    selectedInterval === 'All Time' ? 'Top Projects All Time' : ''}
+          </p>
         </div>
 
         <div className="flex justify-end items-center gap-2">
@@ -72,9 +89,8 @@ const projects = [
             <p
               key={interval}
               onClick={() => handleIntervalChange(interval)}
-              className={`py-3 w-[120px] bg-paper-2 rounded-lg font-medium text-center ${
-                selectedInterval === interval ? 'text-paper-6' : 'text-paper-3'
-              }`}
+              className={`py-3 w-[120px] bg-paper-2 rounded-lg font-medium text-center ${selectedInterval === interval ? 'text-paper-6' : 'text-paper-3'
+                }`}
             >
               {interval}
             </p>
@@ -91,38 +107,33 @@ const projects = [
             <div className="flex w-full rounded-lg justify-between items-center">
               <div className="flex my-6 justify-center items-center">
                 <div className="bg-paper-3 h-20 w-20 rounded-lg">
-                    
+
                 </div>
                 <div className="ml-6">
                   <div className="text-xl font-bold">{project.title} - {project.subtitle}</div>
                   {/* <div className="mt-1 font-semibold text-paper-3">{project.description}</div> */}
                   <div className='mt-2'>
                     {/* Mapping over project tags and rendering them */}
-                    {project.tags.map((tag, index) => {
-    
-    return (
-        <span key={index} className="inline-block rounded-full text-sm text-paper-3 mr-2 align-middle">
-            <div className="flex justify-center items-center h-8 px-4 py-2 rounded-full bg-paper-2">
-                {tagEmojis[tag] && <img src={tagEmojis[tag]?.emojiUrl} alt={tag} className='w-4 h-4 aspect-square mr-2' />}
-                {tag}
-            </div>
-        </span>
-    );
-})}
+                    <span className="inline-block rounded-full text-sm text-paper-3 mr-2 align-middle">{project.tags}</span>
+                    {/* {project.tags.map((tag, index) => {
 
-
-
-
-
-
+                      return (
+                        <span key={index} className="inline-block rounded-full text-sm text-paper-3 mr-2 align-middle">
+                          <div className="flex justify-center items-center h-8 px-4 py-2 rounded-full bg-paper-2">
+                            {tagEmojis[tag] && <img src={tagEmojis[tag]?.emojiUrl} alt={tag} className='w-4 h-4 aspect-square mr-2' />}
+                            {tag}
+                          </div>
+                        </span>
+                      );
+                    })} */}
                   </div>
                 </div>
               </div>
               <div className={`text-paper-3 h-16 w-16 my-6 mr-6 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal hover:scale-105 ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`}>
-    {/* <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Axe.png" alt="Axe" /> */}
-    <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree"/>
-    <p className=''>523</p>
-</div>
+                {/* <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Axe.png" alt="Axe" /> */}
+                <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
+                <p className=''>523</p>
+              </div>
 
             </div>
           </div>

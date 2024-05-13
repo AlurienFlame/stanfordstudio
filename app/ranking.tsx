@@ -35,8 +35,8 @@ export default function Ranking() {
   }, []);
 
   // Array of sample projects with tags
-  /*
-  const projects = [
+  // /*
+  const testprojects = [
     {
       id: 1,
       title: 'Meaning',
@@ -68,7 +68,7 @@ export default function Ranking() {
       tags: ['Tag Alpha', 'Tag Beta', 'Tag Gamma'],
     },
   ];
-  */
+  // */
 
 
   return (
@@ -98,23 +98,23 @@ export default function Ranking() {
         </div>
       </div>
 
-      <div className="flex flex-col">
-        {projects.map((project, index) => (
-          <div key={project.id} className="flex justify-center items-center mt-4 rounded-lg border-paper-2 bg-paper transition-all hover:bg-gradient-to-tr from-[#FDFDFD] to-[#F0F1F7] hover:cursor">
-            <div className={`rounded-lg mr-6 ml-6 flex justify-center items-center w-16 h-16 ${index === 0 ? 'bg-gradient-to-tr from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
+      <div className="grid grid-cols-3 pt-8 gap-8">
+        {testprojects.map((project, index) => (
+          <div key={project.id} className="drop-shadow-xl flex flex-col justify-center items-center rounded-lg border-paper-3 bg-paper transition-all hover:bg-gradient-to-tr from-[#FDFDFD] to-[#F0F1F7] hover:cursor">
+            <div className='flex items-center justify-between w-full p-8'>
+            <div className={`rounded-lg flex justify-center items-center w-16 h-16 ${index === 0 ? 'bg-gradient-to-tr from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
               <p className="font-medium">#{index + 1}</p>
             </div>
-            <div className="flex w-full rounded-lg justify-between items-center">
-              <div className="flex my-6 justify-center items-center">
-                <div className="bg-paper-3 h-20 w-20 rounded-lg">
 
-                </div>
-                <div className="ml-6">
-                  <div className="text-xl font-bold">{project.title} - {project.subtitle}</div>
+            {/* <div className="flex w-full rounded-lg justify-between items-center"> */}
+              <div className="text-center">
+                
+                  <div className="text-xl font-bold">{project.title}</div>
+                  <div className="text-lg font-medium text-paper-3">{project.subtitle}</div>
                   {/* <div className="mt-1 font-semibold text-paper-3">{project.description}</div> */}
-                  <div className='mt-2'>
+                
                     {/* Mapping over project tags and rendering them */}
-                    <span className="inline-block rounded-full text-sm text-paper-3 mr-2 align-middle">{project.tags}</span>
+                    {/* <span className="inline-block rounded-full text-sm text-paper-3 mr-2 align-middle">{project.tags}</span> */}
                     {/* {project.tags.map((tag, index) => {
 
                       return (
@@ -126,15 +126,20 @@ export default function Ranking() {
                         </span>
                       );
                     })} */}
-                  </div>
-                </div>
-              </div>
-              <div className={`text-paper-3 h-16 w-16 my-6 mr-6 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal hover:scale-105 ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`}>
+              
+              {/* </div> */}
+              
+
+            </div>
+            <div className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal hover:scale-105 ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`}>
                 {/* <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Axe.png" alt="Axe" /> */}
                 <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
                 <p className=''>523</p>
               </div>
-
+          </div>
+          
+            <div className='bg-paper-2 w-full aspect-square rounded-lg'>
+              IMAGE
             </div>
           </div>
         ))}

@@ -160,7 +160,7 @@ function Page() {
           {loading ? <span>Loading</span> : <span>Submit</span>}
         </button>
       </form>
-
+{/* 
 
 <div>
   <p>Preview</p>
@@ -169,7 +169,7 @@ function Page() {
     <p>{desc}</p>
     <a href={link} target="_blank">{linkname}</a>
   </div>
-</div>
+</div> */}
 
 
     </div>

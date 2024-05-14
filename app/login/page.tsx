@@ -61,12 +61,12 @@ const [session, setSession] = useState<Session | null>(null);
             required={true}
             onChange={(e) => setEmail(e.target.value)}
             pattern=".+@stanford\.edu$"
-            className='p-2 w-full rounded-full border-paper-3 border-[1px] h-[48px] text-center'
+            className='p-2 w-full rounded-full border-paper-2 border-[2px] h-[48px] text-center'
           />
         </div>
         <div className='pt-2'>
-          <button disabled={loading} className="text-paper py-3 w-[280px] bg-cardinal rounded-full font-bold text-center">
-            {loading ? <span>Loading</span> : <span>Send Login Link</span>}
+          <button disabled={loading} className="md:hover:scale-105 transition-all text-paper py-3 w-[280px] bg-cardinal rounded-full font-bold text-center">
+            {loading ? <span>Sending Now...</span> : <span>Send Login Link</span>}
           </button>
         </div>
       </form>

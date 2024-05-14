@@ -28,15 +28,15 @@ export default function Nav({ session }: { session: Session | null; }) {
           </div>
           <div className='flex gap-4'>
             <Link href={session ? "/submit" : "/login"}>
-              <div className="text-paper-3 py-3 w-[180px] bg-paper rounded-full border border-solid border-paper-3 text-center">Post My Project</div>
+              <div className="md:hover:font-medium md:hover:scale-105 transition-all text-paper-3 py-3 w-[180px] bg-paper-2 rounded-full border-solid border-paper-3 text-center">Post My Project</div>
             </Link>
 
              {/* Conditionally render login/logout */}
              {session ? (
-              <button className="text-paper py-3 w-[180px] bg-cardinal rounded-full font-bold text-center" onClick={handleSignOut}>@{name}</button>
+              <button className="md:hover:scale-105 transition-all text-paper py-3 w-[180px] bg-cardinal rounded-full font-medium text-center" onClick={handleSignOut}>@{name}</button>
             ) : (
               <Link href="/login">
-                <div className="text-paper py-3 w-[180px] bg-cardinal rounded-full font-bold text-center">Login</div>
+                <div className="md:hover:scale-105 transition-all text-paper py-3 w-[180px] bg-cardinal rounded-full font-medium text-center">Login</div>
               </Link>
             )}
           </div>

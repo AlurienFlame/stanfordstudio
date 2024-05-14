@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         'cardinal' : "#FF4A4E",
         'paper' : "#FDFDFD",
+        'paper-1' : "#F7F7FB",
         'paper-2' : "#F0F1F7",
         'paper-3' : "#93979C",
         'paper-6' : "#1B1B1B",

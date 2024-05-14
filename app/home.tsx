@@ -9,12 +9,12 @@ export default function Home() {
   };
 
   return (
-    <main className="flex w-full flex-col font-urbanist">
+    <main className="flex w-full flex-col font-urbanist bg-paper-1">
       <div className="w-full flex flex-col justify-center items-center">
         <div className="max-w-[1800px] w-11/12 justify-center flex flex-col items-center">
 
           {showSection && (
-            <div className="w-full bg-paper-2 rounded-2xl mt-12 py-12 px-12 flex justify-between items-center">
+            <div className="shadow-sm w-full bg-paper rounded-2xl mt-12 py-12 px-12 flex justify-between items-center">
               <div className="flex items-center">
                 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png" alt="Waving Hand" className="aspect-square w-16 h-16 mb-2 hidden md:block" />
                 <div className="md:ml-8">
@@ -23,7 +23,7 @@ export default function Home() {
                 </div>
               </div>
               <button onClick={handleHideSection}>
-                <div className="flex items-center justify-center rounded-full border border-paper-3 h-[48px] w-[48px] text-paper-3">X</div>
+                <div className="flex items-center justify-center rounded-full bg-paper-2 h-[48px] w-[48px] text-paper-3 font-bold text-sm">X</div>
               </button>
             </div>
           )}

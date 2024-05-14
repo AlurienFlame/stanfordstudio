@@ -100,9 +100,9 @@ export default function Ranking() {
 
       <div className="grid grid-cols-3 pt-8 gap-8">
         {testprojects.map((project, index) => (
-          <div key={project.id} className="drop-shadow-xl flex flex-col justify-center items-center rounded-lg border-paper-3 bg-paper transition-all hover:bg-gradient-to-tr from-[#FDFDFD] to-[#F0F1F7] hover:cursor">
+          <div key={project.id} className="transition-all hover:scale-[101%] border-2 flex flex-col justify-center items-center rounded-lg border-paper-2 bg-paper hover:cursor">
             <div className='flex items-center justify-between w-full p-8'>
-            <div className={`rounded-lg flex justify-center items-center w-16 h-16 ${index === 0 ? 'bg-gradient-to-tr from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
+            <div className={`rounded-lg flex justify-center items-center w-16 h-16 ${index === 0 ? 'bg-gradient-to-b from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
               <p className="font-medium">#{index + 1}</p>
             </div>
 
@@ -133,14 +133,12 @@ export default function Ranking() {
             </div>
             <div className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal hover:scale-105 ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`}>
                 {/* <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Axe.png" alt="Axe" /> */}
-                <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
+                <img className=" w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
                 <p className=''>523</p>
               </div>
           </div>
           
-            <div className='bg-paper-2 w-full aspect-square rounded-lg'>
-              IMAGE
-            </div>
+            <img className='bg-paper-2 w-full aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"></img>
           </div>
         ))}
       </div>

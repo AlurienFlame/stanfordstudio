@@ -73,9 +73,9 @@ export default function Ranking() {
 
   return (
     <div className="w-full">
-      <div className="w-full flex justify-between border-b-2 border-solid border-paper-2 mt-12 pb-4">
+      <div className="w-full flex md:flex-row flex-col md:justify-between items-center border-solid border-paper-2 mt-12">
         <div className="flex items-center">
-          <p className="text-3xl font-bold">
+          <p className="text-3xl font-bold md:pb-0 pb-4">
             {
               selectedInterval === 'Newest' ? 'Newest Projects' :
                 selectedInterval === 'This Week' ? 'Top Projects This Week' :
@@ -84,12 +84,12 @@ export default function Ranking() {
           </p>
         </div>
 
-        <div className="flex justify-end items-center gap-2">
+        <div className="grid md:grid-cols-4 grid-cols-2 items-center gap-2">
           {['Newest', 'This Week', 'This Month', 'All Time'].map((interval) => (
             <p
               key={interval}
               onClick={() => handleIntervalChange(interval)}
-              className={`py-3 w-[120px] bg-paper-2 rounded-lg font-medium text-center ${selectedInterval === interval ? 'text-paper-6' : 'text-paper-3'
+              className={`py-3 w-[120px] bg-paper-2 rounded-full font-medium text-center ${selectedInterval === interval ? 'text-paper-6' : 'text-paper-3'
                 }`}
             >
               {interval}
@@ -98,16 +98,13 @@ export default function Ranking() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 pt-8 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 pt-8 gap-8">
         {testprojects.map((project, index) => (
-          <div key={project.id} className="transition-all hover:scale-[101%] border-2 flex flex-col justify-center items-center rounded-lg border-paper-2 bg-paper hover:cursor">
-            <div className='flex items-center justify-between w-full p-8'>
-            <div className={`rounded-lg flex justify-center items-center w-16 h-16 ${index === 0 ? 'bg-gradient-to-b from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
-              <p className="font-medium">#{index + 1}</p>
-            </div>
+          <div key={project.id} className="transition-all hover:scale-[101%] flex flex-col justify-center items-center rounded-2xl border-paper-2 bg-paper-2 hover:cursor">
+            <div className='flex items-center justify-between w-full md:p-8 p-4 rounded-2xl'>
 
             {/* <div className="flex w-full rounded-lg justify-between items-center"> */}
-              <div className="text-center">
+              <div className="text-left md:pl-0 pl-2">
                 
                   <div className="text-xl font-bold">{project.title}</div>
                   <div className="text-lg font-medium text-paper-3">{project.subtitle}</div>
@@ -137,8 +134,12 @@ export default function Ranking() {
                 <p className=''>523</p>
               </div>
           </div>
-          
-            <img className='bg-paper-2 w-full aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"></img>
+            <div className='relative'>
+            <img className='bg-paper-2 w-full aspect-square rounded-2xl' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"></img>
+            <div className={`absolute top-2 left-2 rounded-lg flex justify-center items-center w-12 h-12 ${index === 0 ? 'bg-gradient-to-b from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
+              <p className="font-medium">#{index + 1}</p>
+            </div>
+            </div>
           </div>
         ))}
       </div>

@@ -14,16 +14,16 @@ export default function Home() {
         <div className="max-w-[1800px] w-11/12 justify-center flex flex-col items-center">
 
           {showSection && (
-            <div className="w-full bg-paper-2 rounded-lg mt-12 py-12 px-12 flex justify-between items-center">
+            <div className="w-full bg-paper-2 rounded-2xl mt-12 py-12 px-12 flex justify-between items-center">
               <div className="flex items-center">
-                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png" alt="Waving Hand" className="aspect-square w-16 h-16 mb-2" />
-                <div className="ml-8">
+                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png" alt="Waving Hand" className="aspect-square w-16 h-16 mb-2 hidden md:block" />
+                <div className="md:ml-8">
                   <p className="text-xl font-bold text-paper-6">Welcome to Stanford Studio!</p>
                   <p className="text-paper-3 mt-2 text-regular">The best place to launch and discover new Stanford projects.</p>
                 </div>
               </div>
               <button onClick={handleHideSection}>
-                <div className="flex items-center justify-center rounded-[100px] border border-paper-3 h-[48px] w-[48px] text-paper-3">X</div>
+                <div className="flex items-center justify-center rounded-full border border-paper-3 h-[48px] w-[48px] text-paper-3">X</div>
               </button>
             </div>
           )}

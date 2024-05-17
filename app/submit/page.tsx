@@ -87,7 +87,7 @@ function Page() {
       <form onSubmit={handleSubmit} className='flex flex-col items-center w-[90%] md:max-w-[600px]'>
         <p className='font-medium pb-1 pt-4'>Title</p>
         <input
-          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="Stanford Studio (30 chars max)"
           required={true}
@@ -96,7 +96,7 @@ function Page() {
         />
         <p className='font-medium pb-1 pt-4'>Subtitle</p>
         <textarea
-        className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-auto text-center resize-none'
+        className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[100px] text-center resize-none'
         placeholder="The place to share and find Stanford projects. (60 chars max)"
         maxLength={60}
         onChange={(e) => {
@@ -105,9 +105,9 @@ function Page() {
       />
       <p className='font-medium pb-1 pt-4'>Description</p>
         <textarea
-        className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[200px]  text-center resize-none'
+        className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[200px]  text-center resize-none'
         placeholder="(200 chars max)"
-        maxLength={60}
+        maxLength={200}
         onChange={(e) => {
             setDesc(e.target.value);
         }}
@@ -121,7 +121,7 @@ function Page() {
 
 <p className='font-medium pb-1 pt-4'>Stage</p>
         <select
-          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           defaultValue=""
           onChange={(e) => setStage(e.target.value)}
         >
@@ -133,14 +133,14 @@ function Page() {
 
         <p className='font-medium pb-1 pt-4'>Link</p>
         <input
-          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="https://www.google.com/"
           onChange={(e) => setLink(e.target.value)}
         />
         <p className='font-medium pb-1 pt-4'>Link Text</p>
         <input
-          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="My Website"
           onChange={(e) => setLinkName(e.target.value)}
@@ -149,13 +149,13 @@ function Page() {
 
         <p className='font-medium pb-1 pt-4'>Tags</p>
         <input
-          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="Tags, comma, separated"
           onChange={(e) => setTags(e.target.value)}
         />
         <button disabled={loading}
-        className='w-full rounded-lg p-2 bg-cardinal h-[48px] text-center text-white mt-4'
+        className='w-full rounded-3xl p-2 bg-cardinal h-[48px] text-center text-white mt-4'
         >
           {loading ? <span>Loading</span> : <span>Submit</span>}
         </button>

@@ -71,11 +71,11 @@ function Page() {
       <Nav session={session} />
 
 
-      <div className='flex flex-col justify-center items-center h-full w-full py-24'>
+      <div className='flex flex-col justify-center items-center h-full w-full py-12 md:py-24'>
 
       <p className='text-3xl pb-4'>Submit Your Project</p>
         <div className='h-[2px] w-4/5 bg-paper-2 '></div>
-        <div className='mt-4 bg-paper-2 rounded-lg p-6'>
+        <div className='mt-4 bg-paper-2 rounded-lg p-6 w-[90%] md:max-w-[600px]'>
           <p className='text-center text-paper-3'>
           Your SUID will be visable.<br/>
           You must be the creator of the project.<br/>
@@ -84,10 +84,10 @@ function Page() {
         </div>
 
 
-      <form onSubmit={handleSubmit} className='flex flex-col items-center'>
+      <form onSubmit={handleSubmit} className='flex flex-col items-center w-[90%] md:max-w-[600px]'>
         <p className='font-medium pb-1 pt-4'>Title</p>
         <input
-          className='w-[300px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="Stanford Studio (30 chars max)"
           required={true}
@@ -96,7 +96,7 @@ function Page() {
         />
         <p className='font-medium pb-1 pt-4'>Subtitle</p>
         <textarea
-        className='w-[300px] rounded-lg p-2 border-paper-3 border-[1px] h-auto text-center resize-none'
+        className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-auto text-center resize-none'
         placeholder="The place to share and find Stanford projects. (60 chars max)"
         maxLength={60}
         onChange={(e) => {
@@ -105,7 +105,7 @@ function Page() {
       />
       <p className='font-medium pb-1 pt-4'>Description</p>
         <textarea
-        className='w-[300px] rounded-lg p-2 border-paper-3 border-[1px] h-[200px]  text-center resize-none'
+        className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[200px]  text-center resize-none'
         placeholder="(200 chars max)"
         maxLength={60}
         onChange={(e) => {
@@ -121,7 +121,7 @@ function Page() {
 
 <p className='font-medium pb-1 pt-4'>Stage</p>
         <select
-          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           defaultValue=""
           onChange={(e) => setStage(e.target.value)}
         >
@@ -133,14 +133,14 @@ function Page() {
 
         <p className='font-medium pb-1 pt-4'>Link</p>
         <input
-          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="https://www.google.com/"
           onChange={(e) => setLink(e.target.value)}
         />
         <p className='font-medium pb-1 pt-4'>Link Text</p>
         <input
-          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="My Website"
           onChange={(e) => setLinkName(e.target.value)}
@@ -149,13 +149,13 @@ function Page() {
 
         <p className='font-medium pb-1 pt-4'>Tags</p>
         <input
-          className='w-[280px] rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
+          className='w-full rounded-lg p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="Tags, comma, separated"
           onChange={(e) => setTags(e.target.value)}
         />
         <button disabled={loading}
-        className='w-[280px] rounded-lg p-2 bg-cardinal h-[48px] text-center text-white mt-4'
+        className='w-full rounded-lg p-2 bg-cardinal h-[48px] text-center text-white mt-4'
         >
           {loading ? <span>Loading</span> : <span>Submit</span>}
         </button>

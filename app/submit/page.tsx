@@ -85,7 +85,7 @@ function Page() {
 
 
       <form onSubmit={handleSubmit} className='flex flex-col items-center w-[90%] md:max-w-[600px]'>
-        <p className='font-medium pb-1 pt-4'>Title</p>
+        <p className='font-medium pb-1 pt-4'>Title<span className='text-cardinal'>*</span></p>
         <input
           className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
@@ -94,7 +94,7 @@ function Page() {
           onChange={(e) => setTitle(e.target.value)}
           maxLength={30}
         />
-        <p className='font-medium pb-1 pt-4'>Subtitle</p>
+        <p className='font-medium pb-1 pt-4'>Subtitle<span className='text-cardinal'>*</span></p>
         <textarea
         className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[100px] text-center resize-none'
         placeholder="The place to share and find Stanford projects. (60 chars max)"
@@ -103,7 +103,7 @@ function Page() {
             setSubtitle(e.target.value);
         }}
       />
-      <p className='font-medium pb-1 pt-4'>Description</p>
+      <p className='font-medium pb-1 pt-4'>Description<span className='text-cardinal'>*</span></p>
         <textarea
         className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[200px]  text-center resize-none'
         placeholder="(200 chars max)"

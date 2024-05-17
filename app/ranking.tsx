@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
+import { describe } from 'node:test';
 
 const tagEmojis: { [key: string]: { emojiUrl: string; }; } = {
   'Artificial Intelligence': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png' },
@@ -14,10 +15,10 @@ const tagEmojis: { [key: string]: { emojiUrl: string; }; } = {
 export default function Ranking() {
   const [selectedInterval, setSelectedInterval] = useState('This Week');
   const [projects, setProjects] = useState([] as any[]);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
-    // You can perform any other logic here based on the selected interval
   };
 
   useEffect(() => {
@@ -34,6 +35,14 @@ export default function Ranking() {
       });
   }, []);
 
+  const handleClick = (project: any) => {
+    setSelectedProject(project);
+  };
+
+  const handleClose = () => {
+    setSelectedProject(null);
+  };
+
   // Array of sample projects with tags
   // /*
   const testprojects = [
@@ -42,6 +51,7 @@ export default function Ranking() {
       title: 'Meaning',
       subtitle: 'AI screen time coach',
       tags: ['@kissane', 'Seeking Support', 'Artificial Intelligence', 'Launched'],
+      description: 'This is a description.',
     },
     {
       id: 2,
@@ -69,7 +79,6 @@ export default function Ranking() {
     },
   ];
   // */
-
 
   return (
     <div className="w-full">
@@ -100,51 +109,53 @@ export default function Ranking() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 pt-8 gap-8">
         {testprojects.map((project, index) => (
-          <div key={project.id} className="shadow-sm transition-all md:hover:scale-[101%] flex flex-col justify-center items-center rounded-2xl border-paper-2 bg-paper hover:cursor">
+          <div 
+            key={project.id} 
+            className="shadow-sm transition-all md:hover:scale-[101%] flex flex-col justify-center items-center rounded-2xl border-paper-2 bg-paper hover:cursor" 
+            onClick={() => handleClick(project)}
+          >
             <div className='flex items-center justify-between w-full md:p-8 p-4 rounded-2xl'>
-
-            {/* <div className="flex w-full rounded-lg justify-between items-center"> */}
               <div className="text-left md:pl-0 pl-2">
-                
-                  <div className="text-xl font-bold">{project.title}</div>
-                  <div className="text-lg font-medium text-paper-3">{project.subtitle}</div>
-                  {/* <div className="mt-1 font-semibold text-paper-3">{project.description}</div> */}
-                
-                    {/* Mapping over project tags and rendering them */}
-                    {/* <span className="inline-block rounded-full text-sm text-paper-3 mr-2 align-middle">{project.tags}</span> */}
-                    {/* {project.tags.map((tag, index) => {
-
-                      return (
-                        <span key={index} className="inline-block rounded-full text-sm text-paper-3 mr-2 align-middle">
-                          <div className="flex justify-center items-center h-8 px-4 py-2 rounded-full bg-paper-2">
-                            {tagEmojis[tag] && <img src={tagEmojis[tag]?.emojiUrl} alt={tag} className='w-4 h-4 aspect-square mr-2' />}
-                            {tag}
-                          </div>
-                        </span>
-                      );
-                    })} */}
-              
-              {/* </div> */}
-              
-
-            </div>
-            <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`}>
-                {/* <img className="w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Axe.png" alt="Axe" /> */}
+                <div className="text-xl font-bold">{project.title}</div>
+                <div className="text-lg font-medium text-paper-3">{project.subtitle}</div>
+              </div>
+              <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`}>
                 <img className=" w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
                 <p className=''>523</p>
               </button>
-          </div>
+            </div>
             <div className='relative p-6 pt-0'>
-            <img className='bg-paper-2 w-full aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"></img>
-            {selectedInterval !== 'Newest' && (
-  <div className={`absolute top-2 left-8 rounded-sm flex justify-center items-center w-12 h-12 ${index === 0 ? 'bg-gradient-to-b from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
-    <p className="font-medium">#{index + 1}</p>
-  </div>
-)}
+              <img className='bg-paper-2 w-full aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"></img>
+              {selectedInterval !== 'Newest' && (
+                <div className={`absolute top-2 left-8 rounded-sm flex justify-center items-center w-12 h-12 ${index === 0 ? 'bg-gradient-to-b from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
+                  <p className="font-medium">#{index + 1}</p>
+                </div>
+              )}
             </div>
           </div>
         ))}
       </div>
+
+      {selectedProject && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-8 relative">
+            <button className="absolute top-8 right-8 bg-paper-2 h-[32px] w-[32px] text-paper-3 font-bold text-sm rounded-full" onClick={handleClose}>X</button>
+            <h2 className="text-2xl font-bold">{selectedProject.title}</h2>
+            <p className="text-xl mt-2 font-medium text-paper-3">{selectedProject.subtitle}</p>
+            <div className='flex justify-between'>
+            <p className="text-lg mt-2 text-black">@kissane</p>
+            <p className="text-lg mt-2 text-black">WEBSITE</p>
+            </div>
+            
+            <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div>
+            <p className="text-lg mt-2 text-black">{selectedProject.description}</p>
+
+            <div className="mt-4">
+              <img className='bg-paper-2 w-[300px] aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630" alt={selectedProject.title} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

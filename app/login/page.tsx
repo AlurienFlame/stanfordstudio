@@ -60,7 +60,7 @@ const [session, setSession] = useState<Session | null>(null);
             value={email}
             required={true}
             onChange={(e) => setEmail(e.target.value)}
-            pattern=".+@stanford\.edu$"
+            pattern=".+@(alumni\.)?stanford\.edu$"
             className='p-2 w-full rounded-full border-paper-2 border-[2px] h-[48px] text-center'
           />
         </div>

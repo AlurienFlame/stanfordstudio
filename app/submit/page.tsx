@@ -77,7 +77,7 @@ function Page() {
         <div className='h-[2px] w-4/5 bg-paper-2 '></div>
         <div className='mt-4 bg-paper-2 rounded-lg p-6 w-[90%] md:max-w-[600px]'>
           <p className='text-center text-paper-3'>
-          Your SUID will be visable.<br/>
+          Your SUID will be visible.<br/>
           You must be the creator of the project.<br/>
           Spam or inappropiate content will result in permanent ban.
           </p>

@@ -6,7 +6,14 @@ import { Session } from '@supabase/supabase-js';
 import Nav from "../nav";
 
 
-
+// Upload file using standard upload
+async function uploadFile(file: File): Promise<void> {
+  const { data, error } = await supabase.storage.from('bucket_name').upload('file_path', file);
+  if (error) {
+    console.error('Error uploading file:', error.message);
+    return;
+  }
+}
 
 function Page() {
   // TODO: Figure out how to DRY supabase session logic
@@ -30,7 +37,6 @@ function Page() {
   const [link, setLink] = useState('');
   const [linkname, setLinkName] = useState('');
   const [tags, setTags] = useState('');
-  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

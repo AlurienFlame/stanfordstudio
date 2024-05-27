@@ -18,6 +18,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
   const [projects, setProjects] = useState([] as any[]);
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [selectedProjectComments, setSelectedProjectComments] = useState<any[]>([]);
+  const [newComment, setNewComment] = useState('' as string);
 
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
@@ -54,7 +55,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
       .insert([{ 
           project_id: selectedProject.id,
           author_id: session?.user.id,
-          content: 'Hello, world!',
+          content: newComment,
           author_name: session?.user.email?.split('@')[0],
         }])
       .then(({ data, error }) => {
@@ -195,7 +196,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
             <div className="flex flex-col">
               { session && (
                 <div className="flex flex-col items-center">
-                  <textarea className="w-full h-24 mt-4 rounded-lg p-4 border-paper-3 border-[1px]" placeholder="Add a comment" />
+                  <textarea className="w-full h-24 mt-4 rounded-lg p-4 border-paper-3 border-[1px]" placeholder="Add a comment" onChange={(e)=>setNewComment(e.target.value)} />
                   <button className="bg-cardinal text-paper-1 font-medium rounded-lg p-2 mt-2" onClick={()=>postComment()} >Submit</button>
                 </div>
               )}

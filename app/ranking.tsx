@@ -41,17 +41,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
     setSelectedProject(project);
 
     // Get comments for project
-    supabase
-      .from('comments')
-      .select()
-      .eq('project_id', project.id)
-      .then(({ data, error }) => {
-        if (error) {
-          console.error('Error fetching comments:', error.message);
-          return;
-        }
-        setSelectedProjectComments(data);
-      });
+    fetchCommentsFor(project.id);
   };
 
   const handleClose = () => {
@@ -73,7 +63,24 @@ export default function Ranking({ session }: { session: Session | null; }) {
           return;
         }
       });
+
+    // Fetch comments again
+    fetchCommentsFor(selectedProject.id);
   };
+  
+  const fetchCommentsFor = (project_id: number) => {
+    supabase
+      .from('comments')
+      .select()
+      .eq('project_id', project_id)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error fetching comments:', error.message);
+          return;
+        }
+        setSelectedProjectComments(data);
+      });
+  }
 
   // Array of sample projects with tags
   // /*

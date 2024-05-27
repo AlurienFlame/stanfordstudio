@@ -35,7 +35,7 @@ function Page() {
   const [desc, setDesc] = useState('');
   const [stage, setStage] = useState('');
   const [link, setLink] = useState('');
-  const [linkname, setLinkName] = useState('');
+  const [link_title, setLinkTitle] = useState('');
   const [tags, setTags] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -56,6 +56,7 @@ function Page() {
         user_id: session?.user.id,
         stage,
         link,
+        link_title,
         tags
       }
     );
@@ -149,7 +150,7 @@ function Page() {
           className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           type="text"
           placeholder="My Website"
-          onChange={(e) => setLinkName(e.target.value)}
+          onChange={(e) => setLinkTitle(e.target.value)}
         />
 
 

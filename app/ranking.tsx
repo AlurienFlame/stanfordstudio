@@ -108,7 +108,7 @@ export default function Ranking() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 pt-8 gap-8">
-        {testprojects.map((project, index) => (
+        {projects.map((project, index) => (
           <div 
             key={project.id} 
             className="shadow-sm transition-all md:hover:scale-[101%] flex flex-col justify-center items-center rounded-2xl border-paper-2 bg-paper hover:cursor" 
@@ -144,7 +144,7 @@ export default function Ranking() {
             <p className="text-xl mt-2 font-medium text-paper-3">{selectedProject.subtitle}</p>
             <div className='flex justify-between'>
             <p className="text-lg mt-2 text-black">@kissane</p>
-            <p className="text-lg mt-2 text-black">WEBSITE</p>
+            <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="text-lg mt-2 text-blue-500">{selectedProject.link_title}</a>
             </div>
             
             <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div>

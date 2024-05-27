@@ -24,7 +24,7 @@ export default function Page() {
   return (
     <main className="flex w-full flex-col font-urbanist">
       <Nav session={session} />
-      <Home></Home>
+      <Home session={session} ></Home>
     </main>
   );
 }

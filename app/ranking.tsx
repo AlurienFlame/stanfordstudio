@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
 import { describe } from 'node:test';
+import { Session } from '@supabase/supabase-js';
 
 const tagEmojis: { [key: string]: { emojiUrl: string; }; } = {
   'Artificial Intelligence': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png' },
@@ -12,10 +13,11 @@ const tagEmojis: { [key: string]: { emojiUrl: string; }; } = {
   'Seeking Teammates': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png' },
 };
 
-export default function Ranking() {
+export default function Ranking({ session }: { session: Session | null; }) {
   const [selectedInterval, setSelectedInterval] = useState('This Week');
   const [projects, setProjects] = useState([] as any[]);
   const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedProjectComments, setSelectedProjectComments] = useState<any[]>([]);
 
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
@@ -37,10 +39,40 @@ export default function Ranking() {
 
   const handleClick = (project: any) => {
     setSelectedProject(project);
+
+    // Get comments for project
+    supabase
+      .from('comments')
+      .select()
+      .eq('project_id', project.id)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error fetching comments:', error.message);
+          return;
+        }
+        setSelectedProjectComments(data);
+      });
   };
 
   const handleClose = () => {
     setSelectedProject(null);
+  };
+
+  const postComment = () => {
+    supabase
+      .from('comments')
+      .insert([{ 
+          project_id: selectedProject.id,
+          author_id: session?.user.id,
+          content: 'Hello, world!',
+          author_name: session?.user.email?.split('@')[0],
+        }])
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error posting comment:', error.message);
+          return;
+        }
+      });
   };
 
   // Array of sample projects with tags
@@ -146,12 +178,26 @@ export default function Ranking() {
             <p className="text-lg mt-2 text-black">@kissane</p>
             <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="text-lg mt-2 text-blue-500">{selectedProject.link_title}</a>
             </div>
-            
+
             <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div>
             <p className="text-lg mt-2 text-black">{selectedProject.description}</p>
 
-            <div className="mt-4">
+            <div className="my-4">
               <img className='bg-paper-2 w-[300px] aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630" alt={selectedProject.title} />
+            </div>
+            <div className="flex flex-col">
+              { session && (
+                <div className="flex flex-col items-center">
+                  <textarea className="w-full h-24 mt-4 rounded-lg p-4 border-paper-3 border-[1px]" placeholder="Add a comment" />
+                  <button className="bg-cardinal text-paper-1 font-medium rounded-lg p-2 mt-2" onClick={()=>postComment()} >Submit</button>
+                </div>
+              )}
+              { selectedProjectComments.map((comment) => (
+                <div>
+                  <b>{comment.author_name}</b>
+                  <p className="max-w-64">{comment.content}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

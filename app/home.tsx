@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Ranking from "./ranking";
+import { Session } from '@supabase/supabase-js';
 
-export default function Home() {
+export default function Home({ session }: { session: Session | null; }) {
   const [showSection, setShowSection] = useState(true);
 
   const handleHideSection = () => {
@@ -28,7 +29,7 @@ export default function Home() {
             </div>
           )}
 
-          <Ranking />
+          <Ranking session={session} />
         </div>
       </div>
     </main>

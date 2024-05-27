@@ -68,7 +68,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
     // Fetch comments again
     fetchCommentsFor(selectedProject.id);
   };
-  
+
   const fetchCommentsFor = (project_id: number) => {
     supabase
       .from('comments')
@@ -201,7 +201,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
                 </div>
               )}
               { selectedProjectComments.map((comment) => (
-                <div>
+                <div key={comment.id}>
                   <b>{comment.author_name}</b>
                   <p className="max-w-64">{comment.content}</p>
                 </div>

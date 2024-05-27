@@ -63,10 +63,9 @@ export default function Ranking({ session }: { session: Session | null; }) {
           console.error('Error posting comment:', error.message);
           return;
         }
+        // Fetch comments again
+        fetchCommentsFor(selectedProject.id);
       });
-
-    // Fetch comments again
-    fetchCommentsFor(selectedProject.id);
   };
 
   const fetchCommentsFor = (project_id: number) => {

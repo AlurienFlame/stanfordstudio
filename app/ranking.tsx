@@ -23,9 +23,8 @@ export default function Ranking({ session }: { session: Session | null; }) {
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
   };
-
-  useEffect(() => {
-    // FIXME: Triggers twice, just react things
+  
+  const refreshProjects = () => {
     supabase
       .from('projects')
       .select()
@@ -36,7 +35,9 @@ export default function Ranking({ session }: { session: Session | null; }) {
         }
         setProjects(data);
       });
-  }, []);
+  }
+
+  useEffect(refreshProjects, []);
 
   const handleClick = (project: any) => {
     setSelectedProject(project);
@@ -81,6 +82,27 @@ export default function Ranking({ session }: { session: Session | null; }) {
         setSelectedProjectComments(data);
       });
   }
+
+  const upvote = (project_id: number) => {
+    // if (!session) {
+    //   alert('You need to be logged in to upvote a project');
+    //   return;
+    // }
+
+    let old_value = projects.find((project) => project.id === project_id)?.upvoters || [];
+
+    supabase
+      .from('projects')
+      .update({ upvoters: [...old_value, session?.user.id || "Anonymous"] })
+      .eq('id', project_id)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error upvoting project:', error.message);
+          return;
+        }
+        refreshProjects();
+      });
+  };
 
   // Array of sample projects with tags
   // /*
@@ -158,9 +180,9 @@ export default function Ranking({ session }: { session: Session | null; }) {
                 <div className="text-xl font-bold">{project.title}</div>
                 <div className="text-lg font-medium text-paper-3">{project.subtitle}</div>
               </div>
-              <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`}>
+              <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`} onClick={()=>upvote(project.id)} >
                 <img className=" w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
-                <p className=''>523</p>
+                <p className=''>{project.upvoters?.length || "?"}</p>
               </button>
             </div>
             <div className='relative p-6 pt-0'>

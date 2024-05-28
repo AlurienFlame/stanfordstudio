@@ -88,21 +88,38 @@ export default function Ranking({ session }: { session: Session | null; }) {
     //   alert('You need to be logged in to upvote a project');
     //   return;
     // }
-
-    let old_value = projects.find((project) => project.id === project_id)?.upvoters || [];
-
+    
+    // TODO: Block duplicate upvotes
+    // TODO: Toggling
+    
     supabase
-      .from('projects')
-      .update({ upvoters: [...old_value, session?.user.id || "Anonymous"] })
-      .eq('id', project_id)
+      .from("upvotes")
+      .insert([
+        { user_id: session?.user.id || "35b8d270-df6f-4128-9086-f5fa27a312bf", project_id }
+      ])
       .then(({ data, error }) => {
         if (error) {
-          console.error('Error upvoting project:', error.message);
+          console.error('Error upvoting:', error.message);
           return;
         }
+        // Fetch comments again
         refreshProjects();
       });
-  };
+  }
+  
+  const countUpvotes = (project_id: number) => {
+    supabase
+      .from('upvotes')
+      .select('*', { count: 'exact' })
+      .eq('project_id', project_id)
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error counting upvotes:', error.message);
+          return null;
+        }
+        return data?.length;
+      });
+  }
 
   // Array of sample projects with tags
   // /*
@@ -182,7 +199,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
               </div>
               <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`} onClick={()=>upvote(project.id)} >
                 <img className=" w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
-                <p className=''>{project.upvoters?.length || "?"}</p>
+                <p className=''>{/* countUpvotes(project.id) || */ "?"}</p>
               </button>
             </div>
             <div className='relative p-6 pt-0'>

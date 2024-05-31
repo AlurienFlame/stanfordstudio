@@ -10,6 +10,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [selectedProjectComments, setSelectedProjectComments] = useState<any[]>([]);
   const [newComment, setNewComment] = useState('' as string);
+  
 
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
@@ -50,7 +51,22 @@ export default function Ranking({ session }: { session: Session | null; }) {
         console.error('Error counting upvotes:', error.message);
         return project;
       }
-      return { ...project, upvotes: upvoteMatches?.length || 0 };
+
+      let userHasUpvoted = false;
+      if (session) {
+        const { data: userUpvote, error } = await supabase
+          .from('upvotes')
+          .select('*')
+          .eq('project_id', project.id)
+          .eq('user_id', session.user.id);
+        if (error) {
+          console.error('Error checking user upvote:', error.message);
+        } else {
+          userHasUpvoted = userUpvote.length > 0;
+        }
+      }
+
+      return { ...project, upvotes: upvoteMatches?.length || 0, userHasUpvoted };
     }));
 
     if (interval !== 'Newest') {
@@ -60,15 +76,12 @@ export default function Ranking({ session }: { session: Session | null; }) {
     setProjects(projectsWithUpvotes);
   };
 
-
   useEffect(() => {
     refreshProjects();
-  }, []);
+  }, [session]);
 
   const handleClick = (project: any) => {
     setSelectedProject(project);
-
-    // Get comments for project
     fetchCommentsFor(project.id);
   };
 
@@ -90,7 +103,6 @@ export default function Ranking({ session }: { session: Session | null; }) {
           console.error('Error posting comment:', error.message);
           return;
         }
-        // Fetch comments again
         fetchCommentsFor(selectedProject.id);
       });
   };
@@ -109,14 +121,15 @@ export default function Ranking({ session }: { session: Session | null; }) {
       });
   }
 
-  const upvote = (project_id: number) => {
+  const upvote = (project_id: number, event: React.MouseEvent) => {
+    event.stopPropagation();
+    
     if (!session) {
       alert('You need to be logged in to upvote a project');
       return;
     }
 
     (async () => {
-      // Check if this user has already upvoted this project
       const { data: existingUpvote, error } = await supabase
         .from('upvotes')
         .select()
@@ -129,7 +142,6 @@ export default function Ranking({ session }: { session: Session | null; }) {
       }
 
       if (existingUpvote.length > 0) {
-        // Remove upvote
         const { data, error } = await supabase
           .from('upvotes')
           .delete()
@@ -140,11 +152,10 @@ export default function Ranking({ session }: { session: Session | null; }) {
           return;
         }
       } else {
-        // Add upvote
         const { data, error } = await supabase
           .from("upvotes")
           .insert([
-            { user_id: session?.user.id || "35b8d270-df6f-4128-9086-f5fa27a312bf", project_id }
+            { user_id: session?.user.id, project_id }
           ]);
         if (error) {
           console.error('Error upvoting:', error.message);
@@ -231,7 +242,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
                 <div className="text-xl font-bold">{project.title}</div>
                 <div className="text-lg font-medium text-paper-3">{project.subtitle}</div>
               </div>
-              <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`} onClick={()=>upvote(project.id)} >
+              <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${project.userHasUpvoted ? 'bg-black text-white' : 'bg-paper text-paper-3 hover:text-cardinal'}`} onClick={(event) => upvote(project.id, event)} >
                 <img className=" w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
                 <p className=''>{project.upvotes ?? "?"}</p>
               </button>

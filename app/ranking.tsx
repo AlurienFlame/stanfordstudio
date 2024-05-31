@@ -23,18 +23,34 @@ export default function Ranking({ session }: { session: Session | null; }) {
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
   };
-  
+
   const refreshProjects = () => {
-    supabase
-      .from('projects')
-      .select()
-      .then(({ data, error }) => {
+    (async () => {
+
+      // Fetch projects from db
+      const { data: fetchedProjects, error } = await supabase
+        .from('projects')
+        .select();
+
+      if (error) {
+        console.error('Error fetching projects:', error.message);
+        return;
+      }
+
+      // On each project, fetch its upvotes: O(projects * upvotes per project)
+      for (let project of fetchedProjects) {
+        const { data: upvoteMatches, error } = await supabase
+          .from('upvotes')
+          .select('*', { count: 'exact' })
+          .eq('project_id', project.id);
         if (error) {
-          console.error('Error fetching projects:', error.message);
-          return;
+          console.error('Error counting upvotes:', error.message);
+          return null;
         }
-        setProjects(data);
-      });
+        project.upvotes = upvoteMatches?.length;
+      };
+      setProjects(fetchedProjects);
+    })();
   }
 
   useEffect(refreshProjects, []);
@@ -104,20 +120,6 @@ export default function Ranking({ session }: { session: Session | null; }) {
         }
         // Fetch comments again
         refreshProjects();
-      });
-  }
-  
-  const countUpvotes = (project_id: number) => {
-    supabase
-      .from('upvotes')
-      .select('*', { count: 'exact' })
-      .eq('project_id', project_id)
-      .then(({ data, error }) => {
-        if (error) {
-          console.error('Error counting upvotes:', error.message);
-          return null;
-        }
-        return data?.length;
       });
   }
 
@@ -199,7 +201,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
               </div>
               <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${false ? 'text-white bg-cardinal ' : 'bg-paper text-paper-3 hover:text-cardinal'}`} onClick={()=>upvote(project.id)} >
                 <img className=" w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
-                <p className=''>{/* countUpvotes(project.id) || */ "?"}</p>
+                <p className=''>{project.upvotes ?? "?"}</p>
               </button>
             </div>
             <div className='relative p-6 pt-0'>

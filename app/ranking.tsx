@@ -100,27 +100,49 @@ export default function Ranking({ session }: { session: Session | null; }) {
   }
 
   const upvote = (project_id: number) => {
-    // if (!session) {
-    //   alert('You need to be logged in to upvote a project');
-    //   return;
-    // }
-    
-    // TODO: Block duplicate upvotes
-    // TODO: Toggling
-    
-    supabase
-      .from("upvotes")
-      .insert([
-        { user_id: session?.user.id || "35b8d270-df6f-4128-9086-f5fa27a312bf", project_id }
-      ])
-      .then(({ data, error }) => {
+    if (!session) {
+      alert('You need to be logged in to upvote a project');
+      return;
+    }
+
+    (async () => {
+      // Check if this user has already upvoted this project
+      const { data: existingUpvote, error } = await supabase
+        .from('upvotes')
+        .select()
+        .eq('user_id', session?.user.id)
+        .eq('project_id', project_id);
+
+      if (error) {
+        console.error('Error checking upvote:', error.message);
+        return;
+      }
+
+      if (existingUpvote.length > 0) {
+        // Remove upvote
+        const { data, error } = await supabase
+          .from('upvotes')
+          .delete()
+          .eq('user_id', session?.user.id)
+          .eq('project_id', project_id);
+        if (error) {
+          console.error('Error removing upvote:', error.message);
+          return;
+        }
+      } else {
+        // Add upvote
+        const { data, error } = await supabase
+          .from("upvotes")
+          .insert([
+            { user_id: session?.user.id || "35b8d270-df6f-4128-9086-f5fa27a312bf", project_id }
+          ]);
         if (error) {
           console.error('Error upvoting:', error.message);
           return;
         }
-        // Fetch comments again
-        refreshProjects();
-      });
+      }
+      refreshProjects();
+    })();
   }
 
   // Array of sample projects with tags

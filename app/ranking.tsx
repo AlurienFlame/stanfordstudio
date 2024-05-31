@@ -4,15 +4,6 @@ import { supabase } from './supabaseClient';
 import { describe } from 'node:test';
 import { Session } from '@supabase/supabase-js';
 
-const tagEmojis: { [key: string]: { emojiUrl: string; }; } = {
-  'Artificial Intelligence': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png' },
-  'Seeking Support': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Two%20Hearts.png' },
-  'Launched': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png' },
-  'In Progress': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Flying%20Saucer.png' },
-  'Early Stages': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Two%20Hearts.png' },
-  'Seeking Teammates': { emojiUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png' },
-};
-
 export default function Ranking({ session }: { session: Session | null; }) {
   const [selectedInterval, setSelectedInterval] = useState('This Week');
   const [projects, setProjects] = useState([] as any[]);
@@ -22,38 +13,57 @@ export default function Ranking({ session }: { session: Session | null; }) {
 
   const handleIntervalChange = (interval: string) => {
     setSelectedInterval(interval);
+    refreshProjects(interval);
   };
 
-  const refreshProjects = () => {
-    (async () => {
+  const refreshProjects = async (interval: string = selectedInterval) => {
+    let query = supabase.from('projects').select();
 
-      // Fetch projects from db
-      const { data: fetchedProjects, error } = await supabase
-        .from('projects')
-        .select();
-
-      if (error) {
-        console.error('Error fetching projects:', error.message);
-        return;
+    if (interval === 'Newest') {
+      query = query.order('created_at', { ascending: false });
+    } else {
+      let fromDate;
+      if (interval === 'This Week') {
+        fromDate = new Date();
+        fromDate.setDate(fromDate.getDate() - 7);
+      } else if (interval === 'This Month') {
+        fromDate = new Date();
+        fromDate.setMonth(fromDate.getMonth() - 1);
       }
+      if (fromDate) {
+        query = query.gte('created_at', fromDate.toISOString());
+      }
+    }
 
-      // On each project, fetch its upvotes: O(projects * upvotes per project)
-      for (let project of fetchedProjects) {
-        const { data: upvoteMatches, error } = await supabase
-          .from('upvotes')
-          .select('*', { count: 'exact' })
-          .eq('project_id', project.id);
-        if (error) {
-          console.error('Error counting upvotes:', error.message);
-          return null;
-        }
-        project.upvotes = upvoteMatches?.length;
-      };
-      setProjects(fetchedProjects);
-    })();
-  }
+    const { data: fetchedProjects, error } = await query;
+    if (error) {
+      console.error('Error fetching projects:', error.message);
+      return;
+    }
 
-  useEffect(refreshProjects, []);
+    const projectsWithUpvotes = await Promise.all(fetchedProjects.map(async project => {
+      const { data: upvoteMatches, error } = await supabase
+        .from('upvotes')
+        .select('*', { count: 'exact' })
+        .eq('project_id', project.id);
+      if (error) {
+        console.error('Error counting upvotes:', error.message);
+        return project;
+      }
+      return { ...project, upvotes: upvoteMatches?.length || 0 };
+    }));
+
+    if (interval !== 'Newest') {
+      projectsWithUpvotes.sort((a, b) => b.upvotes - a.upvotes);
+    }
+
+    setProjects(projectsWithUpvotes);
+  };
+
+
+  useEffect(() => {
+    refreshProjects();
+  }, []);
 
   const handleClick = (project: any) => {
     setSelectedProject(project);

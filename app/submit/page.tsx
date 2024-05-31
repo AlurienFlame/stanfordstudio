@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { Session } from '@supabase/supabase-js';
 import Nav from "../nav";
-
+import { v4 as uuidv4 } from 'uuid';
 
 // Upload file using standard upload
 async function uploadFile(file: File): Promise<void> {
@@ -32,6 +32,7 @@ function Page() {
 
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
+  const [image, setImage] = useState<File[]>([]);
   const [desc, setDesc] = useState('');
   const [stage, setStage] = useState('');
   const [link, setLink] = useState('');
@@ -48,10 +49,15 @@ function Page() {
       return;
     }
 
+    const { data: imgData, error: imgError } = await supabase.storage.from('images')
+    .upload( `${uuidv4()}-${image[0].name}`, image[0]);
+
     const { error } = await supabase.from('projects').insert(
       {
         title,
         subtitle,
+        description: desc,
+        image: imgData?.path,
         author: session?.user.email?.split('@')[0],
         user_id: session?.user.id,
         stage,
@@ -60,8 +66,10 @@ function Page() {
         tags
       }
     );
-
-    if (error) {
+  
+    if (imgError) {
+      alert(imgError.message);
+    } else if (error) {
       alert(error.message);
     } else {
       // TODO: redirect to project page instead of home
@@ -120,13 +128,13 @@ function Page() {
         }}
       />
 
-{/* <p className='font-medium pb-1 pt-4'>Project Icon</p> */}
+    {/* <p className='font-medium pb-1 pt-4'>Project Icon</p> */}
 
-<p className='font-medium pb-1 pt-4'>Images</p>
+    <p className='font-medium pb-1 pt-4'>Image</p>
 
-        {/* TODO: list of image urls */}
+    <input type="file" name="image" onChange={(e) => {if (e.target.files) setImage([e.target.files[0]])}} />
 
-<p className='font-medium pb-1 pt-4'>Stage</p>
+    <p className='font-medium pb-1 pt-4'>Stage</p>
         <select
           className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[48px] text-center'
           defaultValue=""

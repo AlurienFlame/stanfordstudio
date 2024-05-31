@@ -245,7 +245,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
             <h2 className="text-2xl font-bold">{selectedProject.title}</h2>
             <p className="text-xl mt-2 font-medium text-paper-3">{selectedProject.subtitle}</p>
             <div className='flex justify-between'>
-            <p className="text-lg mt-2 text-black">@kissane</p>
+            <p className="text-lg mt-2 text-black">@{selectedProject.author}</p>
             <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="text-lg mt-2 text-blue-500">{selectedProject.link_title}</a>
             </div>
 

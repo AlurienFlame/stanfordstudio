@@ -42,6 +42,20 @@ export default function Ranking({ session }: { session: Session | null; }) {
       return;
     }
 
+    // for each project, load its image
+    await Promise.all(fetchedProjects.map(async project => {
+      if (!project.image) {
+        return;
+      }
+      const { data: imageMatches } = await supabase
+        .storage
+        .from('images')
+        .getPublicUrl(project.image);
+      if (imageMatches) {
+        project.image = imageMatches.publicUrl;
+      }
+    }));
+
     const projectsWithUpvotes = await Promise.all(fetchedProjects.map(async project => {
       const { data: upvoteMatches, error } = await supabase
         .from('upvotes')
@@ -248,7 +262,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
               </button>
             </div>
             <div className='relative p-6 pt-0'>
-              <img className='bg-paper-2 w-full aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"></img>
+              <img className='bg-paper-2 w-full aspect-square rounded-lg' src={project.image || "https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"}></img>
               {selectedInterval !== 'Newest' && (
                 <div className={`absolute top-2 left-8 rounded-sm flex justify-center items-center w-12 h-12 ${index === 0 ? 'bg-gradient-to-b from-[#FFBC51] to-[#FFDE6E] text-[#FFF7DA]' : index === 1 ? 'bg-gradient-to-tr from-[#E4ECF0] to-[#EAF8FF] text-paper-3 ' : index === 2 ? 'bg-gradient-to-tr from-[#F4914A] to-[#FFB37C] text-[#C77B5B]' : 'bg-paper-2 text-paper-3 '}`}>
                   <p className="font-medium">#{index + 1}</p>
@@ -274,7 +288,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
             <p className="text-lg mt-2 text-black">{selectedProject.description}</p>
 
             <div className="my-4">
-              <img className='bg-paper-2 w-[300px] aspect-square rounded-lg' src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630" alt={selectedProject.title} />
+              <img className='bg-paper-2 w-[300px] aspect-square rounded-lg' src={selectedProject.image || "https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"} alt={selectedProject.title} />
             </div>
             <div className="flex flex-col">
               { session && (

@@ -113,6 +113,7 @@ function Page() {
         <textarea
         className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[100px] text-center resize-none'
         placeholder="The place to share and find Stanford projects. (60 chars max)"
+        required={true}
         maxLength={60}
         onChange={(e) => {
             setSubtitle(e.target.value);
@@ -122,6 +123,7 @@ function Page() {
         <textarea
         className='w-full rounded-3xl p-2 border-paper-3 border-[1px] h-[200px]  text-center resize-none'
         placeholder="(200 chars max)"
+        required={true}
         maxLength={200}
         onChange={(e) => {
             setDesc(e.target.value);
@@ -130,11 +132,10 @@ function Page() {
 
     {/* <p className='font-medium pb-1 pt-4'>Project Icon</p> */}
 
-    <p className='font-medium pb-1 pt-4'>Image</p>
+    <p className='font-medium pb-1 pt-4'>Image<span className='text-cardinal'>*</span></p>
     <p className='font-medium pb-1 pt-2  text-paper-3'>We strongly recommend a 1:1 square image.</p>
-  
 
-    <input type="file" name="image" onChange={(e) => {if (e.target.files) setImage([e.target.files[0]])}} />
+    <input type="file" name="image" required={true} onChange={(e) => {if (e.target.files) setImage([e.target.files[0]])}} />
 
     <p className='font-medium pb-1 pt-4'>Stage</p>
         <select

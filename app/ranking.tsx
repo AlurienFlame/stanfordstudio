@@ -246,7 +246,7 @@ export default function Ranking({ session }: { session: Session | null; }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 pt-8 gap-8">
         {projects.map((project, index) => (
-          <div 
+          <button 
             key={project.id} 
             className="shadow-sm transition-all md:hover:scale-[101%] flex flex-col justify-center items-center rounded-2xl border-paper-2 bg-paper hover:cursor" 
             onClick={() => handleClick(project)}
@@ -271,13 +271,13 @@ export default function Ranking({ session }: { session: Session | null; }) {
                 </div>
               )}
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-8 relative">
+          <div className="bg-white rounded-lg p-8 relative overflow-y-auto max-h-[600px]">
             <button className="absolute top-8 right-8 bg-paper-2 h-[32px] w-[32px] text-paper-3 font-bold text-sm rounded-full" onClick={handleClose}>X</button>
             <h2 className="text-2xl font-bold">{selectedProject.title}</h2>
             <p className="text-xl mt-2 font-medium text-paper-3">{selectedProject.subtitle}</p>
@@ -286,22 +286,22 @@ export default function Ranking({ session }: { session: Session | null; }) {
             <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="text-lg mt-2 text-blue-500">{selectedProject.link_title}</a>
             </div>
 
-            <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div>
-            <p className="text-lg mt-2 text-black">{selectedProject.description}</p>
-
+            {/* <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div> */}
             <div className="my-4">
-              <img className='bg-paper-2 w-[300px] rounded-lg' src={selectedProject.image || "https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"} alt={selectedProject.title} />
+              <img className='bg-none w-[300px] rounded-lg' src={selectedProject.image || "https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"} alt={selectedProject.title} />
             </div>
+            <p className="text-lg mt-2 text-paper-3">{selectedProject.description}</p>
+            <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div>
             <div className="flex flex-col">
               { session && (
                 <div className="flex flex-col items-center">
-                  <textarea className="w-full h-24 mt-4 rounded-lg p-4 border-paper-3 border-[1px]" placeholder="Add a comment" onChange={(e)=>setNewComment(e.target.value)} />
-                  <button className="bg-cardinal text-paper-1 font-medium rounded-lg p-2 mt-2" onClick={()=>postComment()} >Submit</button>
+                  <textarea className="w-full h-24 mt-2 rounded-lg p-4 border-paper-3 border-[1px] text-center" placeholder="Add a comment" onChange={(e)=>setNewComment(e.target.value)} />
+                  <button className="bg-cardinal text-paper-1 font-medium rounded-lg p-2 mt-2 w-full" onClick={()=>postComment()} >Submit</button>
                 </div>
               )}
               { selectedProjectComments.map((comment) => (
-                <div key={comment.id}>
-                  <b>{comment.author_name}</b>
+                <div key={comment.id} className='p-4 mt-2 border-paper-2 border-2 rounded-lg'>
+                  <b className='text-[12px]'>{comment.author_name}</b>
                   <p className="max-w-64">{comment.content}</p>
                 </div>
               ))}

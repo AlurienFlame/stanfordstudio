@@ -131,7 +131,7 @@ function Page() {
     {/* <p className='font-medium pb-1 pt-4'>Project Icon</p> */}
 
     <p className='font-medium pb-1 pt-4'>Image</p>
-    <p className='font-medium pb-1 pt-2  text-paper-3'>We recommend 1:1 or 16:9 wide screen.</p>
+    <p className='font-medium pb-1 pt-2  text-paper-3'>We strongly recommend a 1:1 square image.</p>
   
 
     <input type="file" name="image" onChange={(e) => {if (e.target.files) setImage([e.target.files[0]])}} />

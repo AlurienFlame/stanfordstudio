@@ -280,10 +280,13 @@ export default function Ranking({ session }: { session: Session | null; }) {
           <div className="bg-white rounded-lg p-8 relative overflow-y-auto max-h-[600px]">
             <button className="absolute top-8 right-8 bg-paper-2 h-[32px] w-[32px] text-paper-3 font-bold text-sm rounded-full" onClick={handleClose}>X</button>
             <h2 className="text-2xl font-bold">{selectedProject.title}</h2>
-            <p className="text-xl mt-2 font-medium text-paper-3">{selectedProject.subtitle}</p>
+            <div className="flex justify-between items-end">
+              <p className="text-xl mt-2 font-medium text-paper-3">{selectedProject.subtitle}</p>
+              <button onClick={()=>{alert("Your report has been submitted!")}} >🚩</button>
+            </div>
             <div className='flex justify-between'>
-            <p className="text-lg mt-2 text-black">@{selectedProject.author}</p>
-            <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="text-lg mt-2 text-blue-500">{selectedProject.link_title}</a>
+              <p className="text-lg mt-2 text-black">@{selectedProject.author}</p>
+              <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="text-lg mt-2 text-blue-500">{selectedProject.link_title}</a>
             </div>
 
             {/* <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div> */}

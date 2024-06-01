@@ -119,6 +119,8 @@ export default function Ranking({ session }: { session: Session | null; }) {
         }
         fetchCommentsFor(selectedProject.id);
       });
+
+      setNewComment('');
   };
 
   const fetchCommentsFor = (project_id: number) => {
@@ -249,14 +251,17 @@ export default function Ranking({ session }: { session: Session | null; }) {
           <button 
             key={project.id} 
             className="shadow-sm transition-all md:hover:scale-[101%] flex flex-col justify-center items-center rounded-2xl border-paper-2 bg-paper hover:cursor" 
-            onClick={() => handleClick(project)}
+            onClick={() => {
+              setNewComment('');
+              handleClick(project);
+            }}
           >
             <div className='flex items-center justify-between w-full md:p-8 p-4 rounded-2xl'>
               <div className="text-left md:pl-0 pl-2">
                 <div className="text-xl font-bold">{project.title}</div>
                 <div className="text-lg font-medium text-paper-3">{project.subtitle}</div>
               </div>
-              <button className={`text-paper-3 h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${project.userHasUpvoted ? 'bg-black text-white' : 'bg-paper text-paper-3 hover:text-cardinal'}`} onClick={(event) => upvote(project.id, event)} >
+              <button className={` h-16 w-16 rounded-lg border-[0px] flex justify-center items-center flex-col transition-all hover:border-0 border-cardinal md:hover:scale-[120%] ${project.userHasUpvoted ? ' text-cardinal font-bold' : 'bg-paper text-paper-3 hover:text-cardinal'}`} onClick={(event) => upvote(project.id, event)} >
                 <img className=" w-8 h-8" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Evergreen%20Tree.png" alt="Evergreen Tree" />
                 <p className=''>{project.upvotes ?? "?"}</p>
               </button>
@@ -276,13 +281,14 @@ export default function Ranking({ session }: { session: Session | null; }) {
       </div>
 
       {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-8 relative overflow-y-auto max-h-[600px]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={handleClose}>
+          <div className="bg-white rounded-lg p-8 relative overflow-y-auto max-h-[600px] max-w-[500px] m-4" onClick={(e) => e.stopPropagation()}>
             <button className="absolute top-8 right-8 bg-paper-2 h-[32px] w-[32px] text-paper-3 font-bold text-sm rounded-full" onClick={handleClose}>X</button>
+            <button className="absolute top-8 right-20 bg-paper-2 h-[32px] w-[32px] text-paper-3 font-bold text-sm rounded-full" onClick={()=>{alert("Your report has been submitted!")}} >🚩</button>
             <h2 className="text-2xl font-bold">{selectedProject.title}</h2>
             <div className="flex justify-between items-end">
               <p className="text-xl mt-2 font-medium text-paper-3">{selectedProject.subtitle}</p>
-              <button onClick={()=>{alert("Your report has been submitted!")}} >🚩</button>
+              {/* <button >🚩</button> */}
             </div>
             <div className='flex justify-between'>
               <p className="text-lg mt-2 text-black">@{selectedProject.author}</p>
@@ -291,21 +297,44 @@ export default function Ranking({ session }: { session: Session | null; }) {
 
             {/* <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div> */}
             <div className="my-4">
-              <img className='bg-none w-[300px] rounded-lg' src={selectedProject.image || "https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"} alt={selectedProject.title} />
+              <img className='bg-none w-full rounded-lg' src={selectedProject.image || "https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"} alt={selectedProject.title} />
             </div>
-            <p className="text-lg mt-2 text-paper-3">{selectedProject.description}</p>
+            <p className="text-sm mt-2 text-paper-3 w-full text-center">{selectedProject.stage == 1 ? "Idea" : selectedProject.stage == 2 ? "Prototype" : selectedProject.stage == 3 ? "Launched" : ""}</p>
+            <p className="text-lg mt-2 text-black  w-full text-center" >{selectedProject.description}</p>
+            <p className="text-sm mt-2 text-paper-3  w-full text-center" >{selectedProject.tags}</p>
             <div className='h-[2px] w-full bg-paper-2 mt-4 mb-2'></div>
             <div className="flex flex-col">
               { session && (
                 <div className="flex flex-col items-center">
-                  <textarea className="w-full h-24 mt-2 rounded-lg p-4 border-paper-3 border-[1px] text-center" placeholder="Add a comment" onChange={(e)=>setNewComment(e.target.value)} />
-                  <button className="bg-cardinal text-paper-1 font-medium rounded-lg p-2 mt-2 w-full" onClick={()=>postComment()} >Submit</button>
-                </div>
+                <textarea
+                  className="w-full h-24 mt-2 rounded-lg p-4 border-paper-3 border-[1px] text-center"
+                  placeholder="Add a comment"
+                  onChange={(e) => {
+                    if (e.target.value.length <= 200) {
+                      setNewComment(e.target.value);
+                    }
+                  }}
+                  value={newComment}
+                />
+                <button
+                  className="bg-cardinal text-paper-1 font-medium rounded-lg p-2 mt-2 w-full"
+                  onClick={() => {
+                    if (newComment.length <= 200) {
+                      postComment();
+                    } else {
+                      alert("Comment cannot be over 200 characters");
+                    }
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+              
               )}
               { selectedProjectComments.map((comment) => (
                 <div key={comment.id} className='p-4 mt-2 border-paper-2 border-2 rounded-lg'>
                   <b className='text-[12px]'>{comment.author_name}</b>
-                  <p className="max-w-64">{comment.content}</p>
+                  <p className="">{comment.content}</p>
                 </div>
               ))}
             </div>

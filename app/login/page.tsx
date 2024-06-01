@@ -64,6 +64,7 @@ const [session, setSession] = useState<Session | null>(null);
             className='p-2 w-full rounded-full border-paper-2 border-[2px] h-[48px] text-center'
           />
         </div>
+        <p className='py-4 text-paper-3'>Works best on Chrome.</p>
         <div className='pt-2'>
           <button disabled={loading} className="md:hover:scale-105 transition-all text-paper py-3 w-[280px] bg-cardinal rounded-full font-bold text-center">
             {loading ? <span>Sending Now...</span> : <span>Send Login Link</span>}
